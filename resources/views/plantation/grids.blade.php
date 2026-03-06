@@ -4,34 +4,63 @@
 
 @section('content')
 
-<h2 class="text-2xl font-bold mb-6">Grid Operations</h2>
+<div class="container py-4">
 
-<table class="w-full bg-white shadow rounded">
+<!-- HEADER -->
 
-<thead class="bg-gray-100">
-<tr>
-<th class="p-3">Grid Code</th>
-<th class="p-3">Status</th>
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+<div>
+<h4 class="fw-bold mb-0">Grid Management</h4>
+<small class="text-muted">Monitor grid availability and usage</small>
+</div>
+
+</div>
+
+<!-- GRID CARD -->
+
+<div class="card shadow-sm border-0">
+
+<div class="card-body">
+
+<div class="table-responsive">
+
+<table class="table align-middle table-hover">
+
+<thead class="border-bottom">
+
+<tr class="text-muted">
+
+<th>Grid Code</th>
+<th>Status</th>
+
 </tr>
+
 </thead>
 
 <tbody>
 
-@foreach($grids as $grid)
+@forelse($grids as $grid)
 
-<tr class="border-t">
+<tr>
 
-<td class="p-3">{{ $grid->code }}</td>
+<td class="fw-semibold">
+{{ $grid->grid_code }}
+</td>
 
-<td class="p-3">
+<td>
 
-@if($grid->status=='available')
+@if($grid->is_active)
 
-<span class="text-green-600">Available</span>
+<span class="badge bg-danger-subtle text-danger px-3 py-2">
+● Used
+</span>
 
 @else
 
-<span class="text-orange-600">Used</span>
+<span class="badge bg-success-subtle text-success px-3 py-2">
+● Available
+</span>
 
 @endif
 
@@ -39,10 +68,28 @@
 
 </tr>
 
-@endforeach
+@empty
+
+<tr>
+
+<td colspan="2" class="text-center py-4 text-muted">
+No grids found
+</td>
+
+</tr>
+
+@endforelse
 
 </tbody>
 
 </table>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 @endsection

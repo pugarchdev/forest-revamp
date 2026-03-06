@@ -92,6 +92,7 @@ Route::middleware(['auth'])->group(function () {
 
         // ADD THIS
         Route::get('/workflow/{id}', [PlantationController::class, 'workflow'])->name('plantation.workflow');
+        Route::post('/workflow/{id}', [PlantationController::class, 'saveWorkflow']);
     });
 
     /* Patrol */

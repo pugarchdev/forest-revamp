@@ -9,6 +9,7 @@ use App\Models\Grid;
 
 class PlantationController extends Controller
 {
+
     public function dashboard()
     {
         $plantations = Plantation::all();
@@ -32,7 +33,7 @@ class PlantationController extends Controller
         return view('plantation.analytics');
     }
 
-    // ADD THIS METHOD
+    // SHOW WORKFLOW PAGE
     public function workflow($id)
     {
         $plantation = Plantation::findOrFail($id);
@@ -46,6 +47,41 @@ class PlantationController extends Controller
             'observation'
         ];
 
-        return view('plantation.workflow', compact('plantation', 'phases'));
+        return view('plantation.workflow', compact('plantation','phases'));
     }
+
+
+    // SAVE FORM DATA AND MOVE TO NEXT PHASE
+    public function saveWorkflow(Request $request,$id)
+    {
+        $plantation = Plantation::findOrFail($id);
+
+        $phases = [
+            'identification',
+            'measurement',
+            'planning',
+            'planting',
+            'fencing',
+            'observation'
+        ];
+
+        $currentIndex = array_search($plantation->current_phase,$phases);
+
+        // Save phase data (example)
+        $data = $request->all();
+
+        // you can store this in another table if needed
+        // example: plantation_logs table
+
+        // Move to next phase
+        if($currentIndex !== false && isset($phases[$currentIndex+1]))
+        {
+            $plantation->current_phase = $phases[$currentIndex+1];
+            $plantation->save();
+        }
+
+        return redirect('/plantation/workflow/'.$plantation->id)
+                ->with('success','Phase completed');
+    }
+
 }
