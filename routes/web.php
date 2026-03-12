@@ -15,6 +15,10 @@ use App\Http\Controllers\GuardDetailController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PlantationController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\SiteController;
+use App\Http\Controllers\ShiftController;
+use App\Http\Controllers\SiteEmployeeController;
 /* Auth Routes */
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -92,8 +96,30 @@ Route::middleware(['auth'])->group(function () {
 
         // ADD THIS
         Route::get('/workflow/{id}', [PlantationController::class, 'workflow'])->name('plantation.workflow');
+        Route::post('/workflow/{id}', [PlantationController::class, 'saveWorkflow']);
+    });
+    Route::prefix('clients')->group(function () {
+
+        Route::get('/', [ClientController::class, 'index'])->name('clients.index');
+        Route::get('/create', [ClientController::class, 'create'])->name('clients.create');
+        Route::post('/', [ClientController::class, 'store'])->name('clients.store');
+
+        Route::get('/{id}', [ClientController::class, 'show'])->name('clients.show');
+        Route::get('/{id}/edit', [ClientController::class, 'edit'])->name('clients.edit');
+        Route::put('/{id}', [ClientController::class, 'update'])->name('clients.update');
+        Route::delete('/{id}', [ClientController::class, 'destroy'])->name('clients.destroy');
     });
 
+    Route::prefix('sites')->group(function () {
+
+        Route::get('/', [SiteController::class, 'index'])->name('sites.index');
+        Route::get('/create', [SiteController::class, 'create'])->name('sites.create');
+        Route::post('/', [SiteController::class, 'store'])->name('sites.store');
+        Route::get('/{id}', [SiteController::class, 'show'])->name('sites.show');
+        Route::get('/{id}/edit', [SiteController::class, 'edit'])->name('sites.edit');
+        Route::put('/{id}', [SiteController::class, 'update'])->name('sites.update');
+        Route::delete('/{id}', [SiteController::class, 'destroy'])->name('sites.destroy');
+    });
     /* Patrol */
     Route::prefix('patrol')->group(function () {
         Route::get('/foot-summary', [PatrolController::class, 'footSummary'])->name('patrol.foot.summary');
@@ -114,7 +140,38 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/camera-tracking', [ReportController::class, 'cameraTracking']);
     });
 
+    Route::prefix('sites/{site_id}/shifts')->controller(ShiftController::class)->group(function () {
 
+        Route::get('/', 'index')->name('shifts.index');
+
+        Route::get('/create', 'create')->name('shifts.create');
+
+        Route::post('/store', 'store')->name('shifts.store');
+        Route::get('/{id}/edit', [ShiftController::class, 'edit'])->name('shifts.edit');
+
+        Route::put('/{id}', [ShiftController::class, 'update'])->name('shifts.update');
+
+        Route::delete('/{id}', [ShiftController::class, 'destroy'])->name('shifts.destroy');
+    });
+
+    Route::prefix('sites/{site_id}/employees')->group(function () {
+
+        Route::get('/', [SiteEmployeeController::class, 'index'])->name('site.employees');
+
+        Route::get('/create', [SiteEmployeeController::class, 'create'])->name('site.employees.create');
+
+        Route::post('/store', [SiteEmployeeController::class, 'store'])->name('site.employees.store');
+        Route::get('/{id}', [SiteEmployeeController::class, 'show'])
+            ->name('site.employees.show');
+        Route::get('/{id}/edit', [SiteEmployeeController::class, 'edit'])
+            ->name('site.employees.edit');
+        Route::put('/{id}', [SiteEmployeeController::class, 'update'])->name('site.employees.update');
+        Route::delete('/{id}', [SiteEmployeeController::class, 'destroy'])
+            ->name('site.employees.destroy');
+    });
+
+    Route::get('/clients/{id}/sites', [SiteController::class, 'clientSites'])
+        ->name('clients.sites');
 
     /* Filter API Routes */
     Route::get('/filters/beats/{rangeId?}', [FilterController::class, 'beats']);

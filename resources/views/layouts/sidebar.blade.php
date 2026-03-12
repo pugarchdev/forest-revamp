@@ -1,14 +1,17 @@
 <div class="sidebar" id="sidebar">
 
     {{-- Sidebar Logo Area --}}
-    <div class="sidebar-logo d-flex align-items-center justify-content-center py-3 border-bottom border-secondary">
-        <div class="logo-full text-center">
-            <img src="{{ asset('images/logo1.png') }}" alt="Logo" style="max-height: 40px;">
-            <h6 class="mt-2 mb-0 text-white fw-bold">AI Patrolling</h6>
-        </div>
-        <div class="logo-mini text-center d-none">
-            <img src="{{ asset('images/logo1.png') }}" alt="Logo" style="max-height: 30px;">
-        </div>
+    <div class="sidebar-logo text-center py-4 border-bottom border-secondary mt-3">
+
+        <img src="{{ asset('images/logo1.png') }}"
+            alt="Logo"
+            class="img-fluid d-block mx-auto mb-2"
+            style="max-height:60px;">
+
+        <h6 class="text-white fw-bold mb-0">
+            AI Patrolling
+        </h6>
+
     </div>
 
     <div class="sidebar-content py-2">
@@ -92,8 +95,20 @@
             <i class="bi bi-camera-video fs-5 me-2"></i>
             <span class="link-text">Camera & Tracking</span>
         </a>
+        @if(auth()->user()->role_id == 1)
+        
+        <a href="{{ route('sites.index') }}"
+            class="sidebar-link {{ request()->is('sites*') || request()->is('clients/*/sites') ? 'active' : '' }}">
+
+            <i class="bi bi-building"></i>
+            <span class="link-text">Sites</span>
+
+        </a>
+
+        @endif
 
         {{-- Plantation Management Module --}}
+        @if(auth()->user()->role_id == 1)
         <hr class="sidebar-divider my-2 text-white">
 
         <div class="px-3 text-uppercase small text-white-50 mb-1">
@@ -131,6 +146,27 @@
             <i class="bi bi-bar-chart-line fs-5 me-2"></i>
             <span class="link-text">Survival Analytics</span>
         </a>
+        @endif
 
+
+        {{-- CLIENT MANAGEMENT --}}
+        <hr class="sidebar-divider my-2 text-white">
+
+        <div class="px-3 text-uppercase small text-white-50 mb-1">
+            Client Management
+        </div>
+
+        @if(auth()->user()->role_id == 1)
+
+        <a href="{{ route('clients.index') }}"
+            class="sidebar-link {{ request()->is('clients*') ? 'active' : '' }}"
+            title="Clients">
+
+            <i class="bi bi-building fs-5 me-2"></i>
+            <span class="link-text">Clients</span>
+
+        </a>
+
+        @endif
     </div>
 </div>

@@ -4,48 +4,106 @@
 
 @section('content')
 
-<h2 class="text-2xl font-bold mb-6">Active Plantations</h2>
+<div class="container py-4">
 
-<table class="w-full bg-white shadow rounded">
+    <!-- HEADER -->
 
-<thead class="bg-gray-100">
-<tr>
-<th class="p-3">Code</th>
-<th class="p-3">Name</th>
-<th class="p-3">Grid</th>
-<th class="p-3">Phase</th>
-<th class="p-3">Action</th>
-</tr>
-</thead>
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-<tbody>
+        <div>
+            <h4 class="fw-bold mb-0">Plantation Dashboard</h4>
+            <small class="text-muted">Manage active plantation workflows</small>
+        </div>
 
-@foreach($plantations as $pln)
+    </div>
 
-<tr class="border-t">
+    <!-- PLANTATION TABLE -->
 
-<td class="p-3">{{ $pln->code }}</td>
-<td class="p-3">{{ $pln->name }}</td>
-<td class="p-3">{{ $pln->grid_id }}</td>
-<td class="p-3">{{ $pln->current_phase }}</td>
+    <div class="card shadow-sm border-0">
 
-<td class="p-3">
+        <div class="card-body">
 
-<a href="/plantation/workflow/{{$pln->id}}"
-class="text-green-600 font-semibold">
+            <div class="table-responsive">
 
-Open Workflow
+                <table class="table align-middle table-hover">
 
-</a>
+                    <thead class="border-bottom">
 
-</td>
+                        <tr class="text-muted">
 
-</tr>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Grid</th>
+                            <th>Phase</th>
+                            <th class="text-end">Action</th>
 
-@endforeach
+                        </tr>
 
-</tbody>
+                    </thead>
 
-</table>
+                    <tbody>
+
+                        @forelse($plantations as $pln)
+
+                        <tr>
+
+                            <td class="fw-semibold">
+                                {{ $pln->code }}
+                            </td>
+
+                            <td>
+                                {{ $pln->name }}
+                            </td>
+
+                            <td>
+                                <span class="badge bg-secondary-subtle text-secondary">
+                                    {{ $pln->grid_id }}
+                                </span>
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-info-subtle text-info">
+                                    {{ ucfirst($pln->current_phase) }}
+                                </span>
+
+                            </td>
+
+                            <td class="text-end">
+
+                                <a href="/plantation/workflow/{{$pln->id}}"
+                                    class="btn btn-success btn-sm">
+
+                                    Open Workflow →
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        @empty
+
+                        <tr>
+
+                            <td colspan="5" class="text-center py-4 text-muted">
+                                No plantations available
+                            </td>
+
+                        </tr>
+
+                        @endforelse
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
 @endsection
