@@ -2,12 +2,10 @@
 
 @section('content')
 
-{{-- Global Filters --}}
-@include('partials.global-filters')
 
 {{-- Title --}}
 <div class="mb-3">
-    <h5 class="fw-bold mb-0">Patrol Analysis</h5>
+    <h4 class="fw-bold mb-3">Patrol Analysis</h4>
 </div>
 
 {{-- KPI Cards --}}
@@ -22,7 +20,7 @@
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-hover table-sm">
-                <thead>
+                <thead class="table-light">
                     <tr>
                         <th>Guard Name</th>
                         <th class="text-end">Total Sessions</th>
@@ -36,7 +34,9 @@
                     @foreach($guards as $guard)
                     <tr>
                         <td>
-                            <a href="#" class="guard-name-link fw-bold text-decoration-none" data-guard-id="{{ $guard->id ?? $guard->user_id ?? '' }}">
+                            <a href="javascript:void(0)"
+                                class="guard-name-link fw-bold text-decoration-none"
+                                data-guard-id="{{ $guard->id }}">
                                 {{ $guard->guard }}
                             </a>
                         </td>

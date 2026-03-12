@@ -15,6 +15,8 @@ use App\Http\Controllers\GuardDetailController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PlantationController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\SiteController;
 /* Auth Routes */
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -94,7 +96,24 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/workflow/{id}', [PlantationController::class, 'workflow'])->name('plantation.workflow');
         Route::post('/workflow/{id}', [PlantationController::class, 'saveWorkflow']);
     });
+    Route::prefix('clients')->group(function () {
 
+        Route::get('/', [ClientController::class, 'index'])->name('clients.index');
+        Route::get('/create', [ClientController::class, 'create'])->name('clients.create');
+        Route::post('/', [ClientController::class, 'store'])->name('clients.store');
+
+        Route::get('/{id}', [ClientController::class, 'show'])->name('clients.show');
+        Route::get('/{id}/edit', [ClientController::class, 'edit'])->name('clients.edit');
+        Route::put('/{id}', [ClientController::class, 'update'])->name('clients.update');
+        Route::delete('/{id}', [ClientController::class, 'destroy'])->name('clients.destroy');
+    });
+
+    Route::prefix('sites')->group(function () {
+
+        Route::get('/', [SiteController::class, 'index'])->name('sites.index');
+        Route::get('/create', [SiteController::class, 'create'])->name('sites.create');
+        Route::post('/', [SiteController::class, 'store'])->name('sites.store');
+    });
     /* Patrol */
     Route::prefix('patrol')->group(function () {
         Route::get('/foot-summary', [PatrolController::class, 'footSummary'])->name('patrol.foot.summary');

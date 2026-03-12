@@ -2,38 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class SiteDetail extends Model
 {
-    use HasFactory;
+    protected $table = 'site_details';
 
     protected $fillable = [
-        'company_id',
-        'client_id',
         'name',
+        'address',
+        'state',
+        'city',
+        'pincode',
+        'contactPerson',
+        'mobile',
+        'sosContact',
+        'email',
+        'earlyTime',
+        'lateTime',
+        'siteType',
+        'client_id',
         'client_name',
-        'location',
-        'lat',
-        'lng',
-        'isActive',
+        'company_id'
     ];
-
-    protected $casts = [
-        'isActive' => 'boolean',
-    ];
-
-    /**
-     * Relationships
-     */
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
-
-    public function client()
-    {
-        return $this->belongsTo(ClientDetail::class);
-    }
 }
