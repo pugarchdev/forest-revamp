@@ -8,6 +8,11 @@
 
         <div class="card-header d-flex justify-content-between align-items-center">
 
+            @if(isset($client))
+            <h5 class="mb-3">
+                Sites for Client: {{ $client->name }}
+            </h5>
+            @endif
             <h5 class="mb-0">Site List</h5>
 
             <div>
@@ -58,26 +63,51 @@
 
                         <td>
 
-                            <span class="badge bg-light text-primary border">SHIFTS</span>
-                            <span class="badge bg-light text-primary border">GEOFENCE</span>
-                            <span class="badge bg-light text-primary border">EMPLOYEE</span>
-                            <span class="badge bg-light text-primary border">TOUR</span>
+                            <a href="{{ route('shifts.index', $site->id) }}"
+                                class="badge bg-light text-primary border text-decoration-none">
+                                SHIFTS
+                            </a>
+
+                            <a href="#"
+                                class="badge bg-light text-primary border text-decoration-none">
+                                GEOFENCE
+                            </a>
+
+                            <a href="{{ route('site.employees', $site->id) }}"
+                                class="badge bg-light text-primary border text-decoration-none">
+                                EMPLOYEE
+                            </a>
+
+                            <!-- <a href="#"
+                                class="badge bg-light text-primary border text-decoration-none">
+                                TOUR
+                            </a> -->
 
                         </td>
 
                         <td>
 
-                            <a href="#" class="btn btn-sm btn-light">
+                            <a href="{{ route('sites.show', $site->id) }}" class="btn btn-sm btn-light">
                                 <i class="bi bi-eye text-primary"></i>
                             </a>
-
-                            <a href="#" class="btn btn-sm btn-light">
+                            <a href="{{ route('sites.edit', $site->id) }}" class="btn btn-sm btn-light">
                                 <i class="bi bi-pencil text-success"></i>
                             </a>
+                            <form action="{{ route('sites.destroy', $site->id) }}"
+                                method="POST"
+                                style="display:inline-block">
 
-                            <a href="#" class="btn btn-sm btn-light">
-                                <i class="bi bi-trash text-danger"></i>
-                            </a>
+                                @csrf
+                                @method('DELETE')
+
+                                <button class="btn btn-sm btn-light"
+                                    onclick="return confirm('Are you sure you want to delete this site?')">
+
+                                    <i class="bi bi-trash text-danger"></i>
+
+                                </button>
+
+                            </form>
 
                         </td>
 

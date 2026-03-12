@@ -96,9 +96,9 @@
             <span class="link-text">Camera & Tracking</span>
         </a>
         @if(auth()->user()->role_id == 1)
-
+        
         <a href="{{ route('sites.index') }}"
-            class="sidebar-link {{ request()->is('sites*') ? 'active' : '' }}">
+            class="sidebar-link {{ request()->is('sites*') || request()->is('clients/*/sites') ? 'active' : '' }}">
 
             <i class="bi bi-building"></i>
             <span class="link-text">Sites</span>

@@ -14,29 +14,37 @@ class SiteAssign extends Model
     protected $fillable = [
         'company_id',
         'user_id',
+        'user_name',
         'supervisor_id',
         'client_id',
-        'site_id',
         'client_name',
+        'site_id',
         'site_name',
-        'date_assigned',
+        'shift_id',
+        'shift_name',
+        'shift_time',
+        'shift_start',
+        'shift_end',
+        'startDate',
+        'endDate',
+        'weekoff',
+        'role_id'
     ];
 
     protected $casts = [
-        'date_assigned' => 'date',
+        'startDate' => 'date',
+        'endDate' => 'date',
     ];
 
-    /**
-     * Relationships
-     */
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    */
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function supervisor()
@@ -46,11 +54,16 @@ class SiteAssign extends Model
 
     public function client()
     {
-        return $this->belongsTo(ClientDetail::class);
+        return $this->belongsTo(ClientDetail::class, 'client_id');
     }
 
     public function site()
     {
-        return $this->belongsTo(SiteDetail::class);
+        return $this->belongsTo(SiteDetail::class, 'site_id');
+    }
+
+    public function shift()
+    {
+        return $this->belongsTo(Shift::class, 'shift_id');
     }
 }

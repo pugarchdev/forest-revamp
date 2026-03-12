@@ -74,7 +74,7 @@
 
                         <td>
 
-                            <a href="{{ route('clients.show',$client->id) }}"
+                            <a href="{{ route('clients.sites',$client->id) }}"
                                 class="btn btn-sm btn-info">
                                 <i class="bi bi-eye"></i>
                             </a>
